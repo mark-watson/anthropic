@@ -10,11 +10,11 @@
            curl-command
            :output :string)))
     ;;(princ curl-command)
-    (print response)
+    ;;(print response)
     (with-input-from-string
         (s response)
       (let* ((json-as-list (json:decode-json s)))
-        (pprint json-as-list)
+        ;;(pprint json-as-list)
         ;; extract text (this might change if OpenAI changes JSON return format):
         ;;(cadr json-as-list)))))
         (string-trim
@@ -32,13 +32,14 @@
            " -H \"x-api-key: " (uiop:getenv "ANTHROPIC_API_KEY") "\""
            " --data '{ \"prompt\": \"\\n\\nHuman: "
            text
-           "\\n\\nAssistant: \", \"max_tokens_to_sample\": 100, \"model\": \"claude-instant-1\" }'")))
-    (princ curl-command) (terpri)
+           "\\n\\nAssistant: \", \"max_tokens_to_sample\": "
+           (princ-to-string max-tokens)
+           ", \"model\": \"claude-instant-1\" }'")))
+    ;;(princ curl-command) (terpri)
     (anthropic-helper curl-command)))
 
 #|
 
-(print (anthropic:completions "The President went to Congress" 20))
-
+(print (anthropic:completions "Answer concisely. Mary is 30 years old and Bob is 25. Who is older?" 12))
 
 |#
