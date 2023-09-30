@@ -14,9 +14,6 @@
     (with-input-from-string
         (s response)
       (let* ((json-as-list (json:decode-json s)))
-        ;;(pprint json-as-list)
-        ;; extract text (this might change if OpenAI changes JSON return format):
-        ;;(cadr json-as-list)))))
         (string-trim
           " "
           (cdar json-as-list))))))
