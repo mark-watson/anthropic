@@ -9,14 +9,12 @@
           (uiop:run-program
            curl-command
            :output :string)))
-    ;;(princ curl-command)
-    ;;(print response)
     (with-input-from-string
         (s response)
       (let* ((json-as-list (json:decode-json s)))
         (string-trim
           " "
-          (cdar json-as-list))))))
+          (cdr (assoc :completion json-as-list)))))))
 
 (defun completions (text max-tokens)
   (let* ((curl-command
@@ -32,7 +30,6 @@
            "\\n\\nAssistant: \", \"max_tokens_to_sample\": "
            (princ-to-string max-tokens)
            ", \"model\": \"claude-instant-1\" }'")))
-    ;;(princ curl-command) (terpri)
     (anthropic-helper curl-command)))
 
 #|
